@@ -25,16 +25,13 @@
       <p class="post__summary">{{post.summary}}
       </p>
       <div class="post__meta post__meta--bottom">
-        <!-- <el-button
-          class="post__date"
-          plain
-          round
-          type="info"
-          size="mini"
-          icon="el-icon-date">
-          {{dateFormat(post.createdAt)}}
-        </el-button> -->
-        <el-button plain round type="info" size="mini">阅读全文 »</el-button>
+        <el-button plain round type="info" size="mini" @click="$router.push({
+            name: 'post',
+            params: {
+              id: post.id
+            }
+          }
+        )">阅读全文 »</el-button>
       </div>
     </div>
   </div>
@@ -49,7 +46,7 @@ export default {
 
   data() {
     return {
-      currentPage: 2
+      currentPage: 1
     }
   },
 
@@ -65,7 +62,10 @@ export default {
    * fetch data
    */
   asyncData({ store, route }) {
-    return store.dispatch('getPosts', 2)
+    return store.dispatch('getPosts', {
+      page: route.query.page || 1,
+      pageSize: route.query.pageSize || 8
+    })
   },
 
   computed: {

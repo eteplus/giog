@@ -2,7 +2,7 @@
  * zeroFill
  * @param {string|number} num
  */
-function zeroFill(num) {
+export const zeroFill = (num) => {
   return +num >= 10 ? num : '0' + num
 }
 

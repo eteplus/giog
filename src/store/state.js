@@ -1,32 +1,4 @@
 const state = {
-  /**
-   * post field
-   {
-      id: '',
-      title: '',
-      slug: '',
-      content: '',
-      author: {
-        avatarUrl: '',
-        login: '',
-        url: ''
-      },
-      createdAt: '',
-      publishedAt: '',
-      lastEdiedtAt: '',
-      url: '',
-      comments: {
-        totalCount: '',
-        list: []
-      },
-      labels: [{
-        id: '',
-        name: '',
-        color: ''
-      }],
-      cursor: ''
-    }
-   */
   posts: {
     page: {},
     hasNextPage: true

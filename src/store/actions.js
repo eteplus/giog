@@ -1,72 +1,25 @@
-const axios = require('axios')
-
-const isServer = process.env.VUE_ENV === 'server'
-
-axios.defaults.baseURL = 'http://127.0.0.1:3030/data'
-
-axios.interceptors.response.use(
-  response => {
-    console.log('isServer:', isServer)
-    console.log('hasData', !!response.data)
-    const result = response.data
-    console.log(result)
-    return result.data ? result : { data: result }
-  },
-  error => Promise.reject(error)
-)
+import API from '@/utils/api'
 
 const actions = {
-  getPosts({ commit }, currentPage) {
-    return axios({
-      url: `/posts.page.${currentPage}.json`,
-    }).then((response) => {
-      const { data } = response
-      commit('SET_POSTS', {
-        currentPage,
-        posts: data.posts,
-        hasNextPage: data.hasNextPage
-      })
-    })
+  getPosts({ commit }, { page, pageSize }) {
+    return API.fetchPosts(page, pageSize)
+      .then(result => commit('SET_POSTS', result))
   },
   getPost({ commit }, id) {
-    return axios({
-      url: `/post/${id}.json`
-    }).then((response) => {
-      const { data } = response
-      commit('SET_POST', {
-        data,
-        id
-      })
-    })
+    return API.fetchPostById(id)
+      .then(result => commit('SET_POST', result))
   },
   getTags({ commit }) {
-    return axios({
-      url: '/tags.json'
-    }).then((response) => {
-      const { data } = response
-      commit('SET_TAGS', data)
-    })
+    return API.fetchTags()
+      .then(result => commit('SET_TAGS', result))
   },
-  getTagOfPosts({ commit }, { tag, currentPage }) {
-    return axios({
-      url: `/tag/${tag}.page.${currentPage}.json`,
-    }).then((response) => {
-      const { data } = response
-      commit('SET_TAG_POSTS', {
-        currentPage,
-        data
-      })
-    })
+  getPostsByTag({ commit }, { tag, page, pageSize }) {
+    return API.fetchPostsByTag(tag, page, pageSize)
+      .then(result => commit('SET_TAG_POSTS', result))
   },
-  getArchives({ commit }) {
-    return axios({
-      url: '/archives.json'
-    }).then((response) => {
-      const { data } = response
-      commit('SET_ARCHIVES', {
-        data: data
-      })
-    })
+  getArchives({ commit }, { page, pageSize }) {
+    return API.fetchArchives(page, pageSize)
+      .then(result => commit('SET_ARCHIVES', result))
   }
 }
 

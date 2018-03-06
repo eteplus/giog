@@ -23,14 +23,17 @@ export default {
   name: 'Tag',
 
   setTitle() {
-    return `标签 "${this.route.params.tag}" · { ETE }`
+    return `标签 "${this.route.params.tag}" · { ETEPLUS }`
   },
 
   asyncData({ store, route }) {
-    const { params } = route
+    const { params, query } = route
     const { tag } = params
-    const currentPage = 1
-    return store.dispatch('getTagOfPosts', { tag, currentPage })
+    return store.dispatch('getPostsByTag', {
+      tag,
+      page: query.page || 1,
+      pageSize: query.pageSize || 8
+    })
   },
 
   computed: mapState(['tag', 'route']),
@@ -38,7 +41,8 @@ export default {
   methods: {
     pagination() {
       const page = this.route.query.page || 1
-      return [...this.tag.posts[page], ...this.tag.posts[page], ...this.tag.posts[page]]
+      const tag = this.route.params.tag
+      return this.tag.posts[tag].page[page]
     },
     dateFormat(time) {
       return dateFormat(time)

@@ -42,6 +42,7 @@ router.get('/posts', async (ctx, next) => {
     const sql = `SELECT
       DISTINCT(posts.id) AS id,
       posts.title AS title,
+      posts.summary As summary,
       posts.created_at As created_at,
       tags.id AS "tag_id",
       tags.name AS "tag_name"
@@ -64,7 +65,8 @@ router.get('/posts', async (ctx, next) => {
         posts[post.id] = {
           id: post.id,
           title: post.title,
-          created_at: post.created_at,
+          createdAt: post.created_at,
+          summary: post.summary,
           tags: [
             {
               id: post.tag_id,
@@ -81,6 +83,62 @@ router.get('/posts', async (ctx, next) => {
     }
     for (let id in posts) {
       data.push(posts[id])
+    }
+    ctx.success({
+      data
+    })
+  } catch (error) {
+    ctx.fail({
+      error: error.message
+    })
+  }
+})
+
+router.get('/post/:id', async (ctx, next) => {
+  try {
+    const id = ctx.params.id
+    const sql = `SELECT
+      DISTINCT(posts.id) AS id,
+      posts.title AS title,
+      posts.content As content,
+      posts.created_at As created_at,
+      posts.comment_count As comment_count,
+      posts.url As url,
+      tags.id AS "tag_id",
+      tags.name AS "tag_name"
+    FROM
+      posts
+      LEFT JOIN post_tag ON posts.id = post_tag.post_id
+      LEFT JOIN tags ON tags.id = post_tag.tag_id
+    WHERE posts.id = '${id}';`
+    const result = await db.sequelize.query(sql, {
+      raw: true,
+      benchmark: true,
+      type: db.Sequelize.QueryTypes.SELECT
+    })
+    let data = null
+    for (const post of result) {
+      if (!data) {
+        data = {
+          id: post.id,
+          title: post.title,
+          content: post.content,
+          commentCount: post.comment_count,
+          url: post.url,
+          createdAt: post.created_at,
+          tags: [
+            {
+              id: post.tag_id,
+              name: post.tag_name
+            }
+          ]
+        }
+      } else {
+        data.tags.push({
+          id: post.tag_id,
+          name: post.tag_name
+        })
+      }
     }
     ctx.success({
       data
@@ -148,7 +206,7 @@ router.get('/tag/:tag', async (ctx, next) => {
       SELECT
         DISTINCT(posts.id) As id,
         posts.title As title,
-        posts.created_at As created_at
+        posts.created_at As createdAt
       FROM
         posts
       LEFT JOIN post_tag ON posts.id = post_tag.post_id
@@ -178,7 +236,7 @@ router.get('/archives', async (ctx, next) => {
     const sql = `SELECT
       id,
       title,
-      created_at
+      created_at AS createdAt
     FROM
       posts
     ORDER BY

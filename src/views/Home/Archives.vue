@@ -1,26 +1,23 @@
 <template>
   <div class="view__wrapper">
-    <div class="card" v-for="archive in archives">
-      <header class="card-header">
-        <p class="card-header-title title is-5">
-          <span class="tag is-transparent is-medium">#&nbsp;{{archive.date}}</span>
-        </p>
-      </header>
-      <div class="card-content">
-        <ul>
-          <li v-for="post in archive.posts" :key="post.id">
-            <router-link class="title" :to="{ name: 'post', params: { id: post.id }}">{{post.title}}</router-link>
-            <span class="tag is-transparent">{{dateFormat(post.createdAt)}}</span>
-          </li>
-        </ul>
-      </div>
+    <div class="posts" v-for="(posts, year) in archives">
+      <h2 class="post__year"><i class="el-icon-date"></i>{{year}}</h2>
+      <ul>
+        <li v-for="post in posts" :key="post.id">
+          <span class="post__date">{{dateFormat(post.createdAt)}}</span>
+          <router-link
+            :to="{ name: 'post', params: { id: post.id }}">
+            {{post.title}}
+          </router-link>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { dateFormat } from '@/utils'
+import { zeroFill } from '@/utils'
 
 export default {
   name: 'Archives',
@@ -39,8 +36,8 @@ export default {
   asyncData({ store, route }) {
     const { query } = route
     const page = query.page || 1
-    const size = query.size || 8
-    return store.dispatch('getArchives', { page, size })
+    const pageSize = query.pageSize || 8
+    return store.dispatch('getArchives', { page, pageSize })
   },
 
   computed: {
@@ -48,12 +45,11 @@ export default {
   },
 
   methods: {
-    pagination() {
-      const page = this.route.query.page || 1
-      return this.archives[page]
-    },
     dateFormat(time) {
-      return dateFormat(time)
+      const date = new Date(time)
+      const month = zeroFill(date.getMonth() + 1)
+      const day = zeroFill(date.getDate())
+      return `${month}-${day}`
     },
     archiveDate(date) {
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -65,41 +61,57 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-.card {
-  margin-top: 1rem;
-  border-radius: 0.2rem;
+@import "../../assets/css/variables.postcss";
+
+.post__year {
+  color: var(--textColor);
+  position: relative;
+  font-size: var(--fontSize-medium);
+  font-weight: bold;
+  padding-bottom: 15px;
+  border-bottom: 1px solid color(var(--textColor) alpha(20%));
+
+  & i {
+    margin-right: 5px;
+  }
 }
 
-.card-header-title {
-  padding: 0.5rem;
-}
-
-.card-content {
-  padding: 1rem;
+.posts {
+  position: relative;
+  padding-bottom: 20px;
 
   & ul {
+    padding-top: 10px;
+    padding-left: 20px;
+  }
+
+  & li {
+    font-size: var(--fontSize-small);
+    margin-top: 10px;
     list-style-type: circle;
-    padding-left: 1rem;
   }
 
-  & .title {
-    font-size: .9rem;
-    font-weight: 500;
+  & a {
+    color: var(--textColor);
+    display: inline-block;
+    position: relative;
+    line-height: 2;
+    text-decoration: none;
+    border-bottom: 1px dashed color(var(--textColor) alpha(50%));
 
-    &:hover {
-      font-weight: 600;
+    &:hover,
+    &:focus {
+      border-bottom: 1px solid var(--textColor);
     }
-  }
-
-  & .tag {
-    font-size: .95rem;
-    margin-left: .5rem;
   }
 }
 
-.icon-date {
-  font-size: inherit;
-  margin-right: 0.4rem;
+.post__date {
+  font-size: var(--fontSize-mini);
+  color: color(var(--textColor) alpha(60%));
+  margin-right: 5px;
+  min-width: 40px;
+  display: inline-block;
 }
 
 </style>
