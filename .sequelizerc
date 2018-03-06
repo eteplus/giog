@@ -1,0 +1,10 @@
+const path = require('path')
+
+const resolve = (...dirs) => path.join(__dirname, ...dirs)
+
+module.exports = {
+  'config': resolve('config', 'db.json'),
+  'models-path': resolve('app', 'models'),
+  'seeders-path': resolve('app/data/', 'seeders'),
+  'migrations-path': path.resolve('app/data/', 'migrations')
+}

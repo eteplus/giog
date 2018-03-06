@@ -1,0 +1,16 @@
+{
+  "apps": [{
+    "name": "giog",
+    "script": "app/server.js",
+    "cwd": "/home/www/www.example.com",
+    "log_date_format": "YYYY-MM-DD HH:mm:ss",
+    "error_file": "/home/www/www.example.com/logs/giog.error.log",
+    "out_file": "/home/www/www.example.com/logs/giog.out.log",
+    "exec_mode": "cluster",
+    "instances": 0,
+    "max_memory_restart": "100M",
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }]
+}

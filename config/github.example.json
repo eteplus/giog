@@ -1,0 +1,6 @@
+{
+  "accessToken": "github accessToken",
+  "owner": "github username",
+  "repository": "issues repository",
+  "pageSize": 2
+}

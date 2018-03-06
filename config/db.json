@@ -1,0 +1,14 @@
+{
+  "development": {
+    "dialect": "sqlite",
+    "storage": "./app/data/giog.sqlite"
+  },
+  "test": {
+    "dialect": "sqlite",
+    "storage": "./app/data/giog.sqlite"
+  },
+  "production": {
+    "dialect": "sqlite",
+    "storage": "./app/data/giog.sqlite"
+  }
+}
