@@ -67,7 +67,9 @@
         <router-view />
         <back-to-top :target="$refs.view.$el" v-if="showBackToTop"/>
         <div class="footer">
+          <div class="footer__content">
            © 2018&nbsp;-&nbsp; {{siteInfo.name}}  &nbsp;-&nbsp;<a target="_blank" rel="nofollow" class="external beian" href="http://www.miitbeian.gov.cn/">{{siteInfo.recordText}}</a>  <br> Powered by&nbsp;<a target="_blank" href="https://github.com/eteplus/giog">Giog</a>
+          </div>
         </div>
       </el-main>
     </el-container>
@@ -234,7 +236,7 @@ export default {
   }
 
   & .avatar-wrapper {
-    float: right;
+    float: right !important;
 
     & div {
       display: flex;
@@ -269,11 +271,11 @@ export default {
   }
 
   & .footer {
+    background-color: #fff;
     line-height: 1.8;
     text-align: center;
-    padding: 15px;
+    padding: 0 20px;
     color: color(var(--textColor) alpha(60%));
-    border-top: 1px solid rgba(85, 85, 85, 0.2);
     font-size: var(--fontSize-small);
 
     & a {
@@ -286,6 +288,11 @@ export default {
         border-bottom: 1px solid color(var(--textColor) alpha(80%));
       }
     }
+  }
+
+  & .footer__content {
+    padding: 20px 0;
+    border-top: 1px solid rgba(85, 85, 85, 0.2);
   }
 }
 

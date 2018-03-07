@@ -335,7 +335,7 @@ export default {
   padding: 10px 15px;
   color: color(var(--textColor) alpha(60%));
   font-size: var(--fontSize-small);
-  background-color: #f6f8fa;
+  background-color: #F7F7F7;
   border-bottom: 1px solid rgba(85, 85, 85, 0.2);
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
