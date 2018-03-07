@@ -35,7 +35,7 @@
     <div class="load-more" :style="{
       opacity: posts.hasNextPage ? 1 : 0
     }">
-      <el-button plain round type="info" size="mini" @click="loadMore">加载更多</el-button>
+      <el-button plain round type="info" size="mini" @click="loadMore">加载更多<i class="el-icon-more"></i></el-button>
     </div>
   </div>
 </template>
@@ -58,7 +58,7 @@ export default {
    * set title
    */
   setTitle() {
-    return '首页 · { ETE }'
+    return '首页 · ' + this.siteInfo.name
   },
 
   /**
@@ -73,7 +73,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['posts', 'route'])
+    ...mapState(['posts', 'route', 'siteInfo'])
   },
 
   methods: {
@@ -164,7 +164,8 @@ export default {
   &:focus,
   &:hover {
     font-weight: bold;
-    border-bottom: 1px solid color(var(--textColor) alpha(60%));
+    color: color(var(--textColor) alpha(80%));
+    border-bottom: 1px solid color(var(--textColor) alpha(80%));
   }
 }
 

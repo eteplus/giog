@@ -2,29 +2,29 @@
   <el-container class="home">
     <el-header class="hidden-sm-and-up">
       <el-menu
-        :router="true"
         menu-trigger="click"
         mode="horizontal"
         text-color="#909399"
-        active-text-color="#555555">
+        active-text-color="#555555"
+        @select="handleSelect">
         <el-submenu index="menu">
           <template slot="title">
             <i class="el-icon-fa-menu"></i>
           </template>
-          <el-menu-item index="/">
-            <span slot="title">Home</span>
+          <el-menu-item index="home">
+            <span slot="title">首页</span>
           </el-menu-item>
-          <el-menu-item index="/tags">
-            <span slot="title">Tags</span>
+          <el-menu-item index="tags">
+            <span slot="title">标签</span>
           </el-menu-item>
-          <el-menu-item index="/archives">
-            <span slot="title">Archives</span>
+          <el-menu-item index="archives">
+            <span slot="title">归档</span>
           </el-menu-item>
         </el-submenu>
         <el-menu-item index="github">
-          <a href="https://github.com/eteplus"><i class="el-icon-fa-github"></i></a>
+          <i class="el-icon-fa-github"></i>
         </el-menu-item>
-        <el-menu-item class="avatar-wrapper" index="/">
+        <el-menu-item class="avatar-wrapper" index="home">
           <div slot="title">
             <span class="avatar avatar--mini" :style="{
             backgroundImage: 'url(' + userInfo.avatar +')'
@@ -39,42 +39,36 @@
           <router-link class="avatar" :style="{
             backgroundImage: 'url(' + userInfo.avatar +')'
           }" :to="{ name: 'home' }"></router-link>
-          <h4 class="username">ETEPLUS</h4>
+          <h4 class="username">{{userInfo.userName}}</h4>
           <p class="bio">
-            Designer and Coder. ^_^
+            {{userInfo.motto}}
           </p>
         </div>
-        <el-menu
-          :router="true">
-          <el-menu-item index="/">
+        <el-menu @select="handleSelect">
+          <el-menu-item index="home">
             <i class="el-icon-fa-home"></i>
             <span slot="title">首页</span>
           </el-menu-item>
-          <el-menu-item index="/tags">
+          <el-menu-item index="tags">
             <i class="el-icon-fa-tag"></i>
             <span slot="title">标签</span>
           </el-menu-item>
-          <el-menu-item index="/archives">
+          <el-menu-item index="archives">
             <i class="el-icon-fa-archive"></i>
             <span slot="title">归档</span>
           </el-menu-item>
-          <!-- <el-menu-item index="3">
-            <i class="el-icon-fa-help-circled"></i>
-            <span slot="title">关于</span>
-          </el-menu-item> -->
           <el-menu-item index="github">
             <i class="el-icon-fa-github"></i>
-            <a slot="title" href="https://github.com/eteplus">Github</a>
+            <span slot="title">Github</span>
           </el-menu-item>
-          <!-- <el-menu-item index="5">
-            <i class="el-icon-fa-rss"></i>
-            <span slot="title">RSS</span>
-          </el-menu-item> -->
         </el-menu>
       </el-aside>
       <el-main ref="view">
         <router-view />
         <back-to-top :target="$refs.view.$el" v-if="showBackToTop"/>
+        <div class="footer">
+           © 2018&nbsp;-&nbsp; {{siteInfo.name}}  &nbsp;-&nbsp;<a target="_blank" rel="nofollow" class="external beian" href="http://www.miitbeian.gov.cn/">{{siteInfo.recordText}}</a>  <br> Powered by&nbsp;<a target="_blank" href="https://github.com/eteplus/giog">Giog</a>
+        </div>
       </el-main>
     </el-container>
   </el-container>
@@ -92,21 +86,33 @@ import {
 } from 'element-ui'
 
 import BackToTop from '@/components/BackToTop'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Home',
 
   data() {
     return {
-      showBackToTop: false,
-      userInfo: {
-        avatar: 'static/img/avatar.jpeg'
-      }
+      showBackToTop: false
     }
   },
 
+  computed: mapState(['userInfo', 'siteInfo']),
+
   mounted() {
     this.showBackToTop = true
+  },
+
+  methods: {
+    handleSelect(key) {
+      if (key === 'github') {
+        window.open(this.userInfo.github)
+      } else {
+        this.$router.push({
+          name: key
+        })
+      }
+    }
   },
 
   components: {
@@ -261,6 +267,26 @@ export default {
     font-size: var(--fontSize-small);
     color: color(var(--textColor) alpha(60%));
   }
+
+  & .footer {
+    line-height: 1.8;
+    text-align: center;
+    padding: 15px;
+    color: color(var(--textColor) alpha(60%));
+    border-top: 1px solid rgba(85, 85, 85, 0.2);
+    font-size: var(--fontSize-small);
+
+    & a {
+      color: color(var(--textColor) alpha(60%));
+      border-bottom: 1px dashed color(var(--textColor) alpha(60%));
+
+      &:hover {
+        font-weight: bold;
+        color: color(var(--textColor) alpha(80%));
+        border-bottom: 1px solid color(var(--textColor) alpha(80%));
+      }
+    }
+  }
 }
 
 .profile {
@@ -273,7 +299,6 @@ export default {
 }
 
 .view__wrapper {
-  min-height: 100%;
   background-color: #fff;
   padding: 20px;
 }

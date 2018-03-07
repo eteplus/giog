@@ -66,6 +66,7 @@ function generateQuery(owner, repository, first, after) {
                     resourcePath
                     url
                   }
+                  authorAssociation
                   bodyHTML
                   createdAt
                   lastEditedAt
@@ -150,6 +151,7 @@ async function generateData(pages) {
             postId: post.id,
             author: comment.author.login,
             avatar: comment.author.avatarUrl,
+            association: comment.authorAssociation,
             content: comment.bodyHTML,
             createdAt: comment.createdAt,
             updatedAt: comment.lastEditedAt,

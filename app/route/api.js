@@ -1,4 +1,5 @@
 const Router = require('koa-router')
+const db = require('../models')
 
 const router = new Router({
   prefix: '/api'
@@ -23,16 +24,6 @@ router.use(async (ctx, next) => {
   await next()
 })
 
-router.get('/pull', async (ctx, next) => {
-  try {
-    const result = await ctx.service.github.fetch()
-    ctx.body = { data: result }
-  } catch (error) {
-    throw error
-  }
-})
-
-const db = require('../models')
 router.get('/posts', async (ctx, next) => {
   try {
     const page = ctx.query.page || 1
@@ -158,7 +149,12 @@ router.get('/comments', async (ctx, next) => {
     const limit = pageSize
     const id = ctx.query.id
     const sql = `SELECT
-      *
+      id,
+      author,
+      avatar,
+      association,
+      content,
+      created_at AS createdAt
     FROM
       comments
     WHERE

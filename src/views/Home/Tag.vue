@@ -23,7 +23,7 @@ export default {
   name: 'Tag',
 
   setTitle() {
-    return `标签 "${this.route.params.tag}" · { ETEPLUS }`
+    return `标签 "${this.route.params.tag}" · ${this.siteInfo.name}`
   },
 
   asyncData({ store, route }) {
@@ -36,7 +36,7 @@ export default {
     })
   },
 
-  computed: mapState(['tag', 'route']),
+  computed: mapState(['tag', 'route', 'siteInfo']),
 
   methods: {
     pagination() {

@@ -112,6 +112,9 @@ module.exports = {
         avatar: {
           type: Sequelize.STRING
         },
+        association: {
+          type: Sequelize.STRING(32)
+        },
         content: {
           type: Sequelize.TEXT
         },

@@ -26,6 +26,9 @@ module.exports = (sequelize, DataTypes) => {
     avatar: {
       type: DataTypes.STRING
     },
+    association: {
+      type: DataTypes.STRING(32)
+    },
     createdAt: {
       field: 'created_at',
       type: DataTypes.DATE

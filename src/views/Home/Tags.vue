@@ -22,14 +22,14 @@ export default {
   name: 'Tags',
 
   setTitle() {
-    return '所有标签 · { ETE }'
+    return '所有标签 · ' + this.siteInfo.name
   },
 
   asyncData({ store, route }) {
     return store.dispatch('getTags')
   },
 
-  computed: mapState(['tag']),
+  computed: mapState(['tag', 'siteInfo']),
 
   methods: {
     router(tagName) {

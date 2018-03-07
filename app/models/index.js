@@ -13,6 +13,7 @@ const storage = resolve('data/giog.sqlite')
 const sequelize = new Sequelize('giog', null, null, {
   dialect: 'sqlite',
   storage: storage,
+  operatorsAliases: false
 })
 
 fs.readdirSync(__dirname)

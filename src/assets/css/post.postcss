@@ -1,7 +1,7 @@
 @import "./variables.postcss";
 
 .post__content {
-  border-bottom: 1px solid color(var(--textColor) alpha(20%));
+  // border-bottom: 1px solid color(var(--textColor) alpha(20%));
   padding: 20px 0;
   font-size: var(--fontSize-small);
   line-height: 1.5;
@@ -78,7 +78,14 @@
 .post__content ol,
 .post__content dl,
 .post__content table,
-.post__content pre {
+.post__content pre,
+.comment p,
+.comment blockquote,
+.comment ul,
+.comment ol,
+.comment dl,
+.comment table,
+.comment pre {
   margin-top: 0;
   margin-bottom: var(--marginSize);
 }
@@ -409,7 +416,9 @@
 }
 
 .post__content code,
-.post__content tt {
+.post__content tt,
+.comment code,
+.comment tt {
   margin: 0;
   border-radius: 3px;
   padding: 0.2em 0.4em;
@@ -418,19 +427,24 @@
 }
 
 .post__content code br,
-.post__content tt br {
+.post__content tt br,
+.comment code br,
+.comment tt br {
   display: none;
 }
 
-.post__content del code {
+.post__content del code,
+.comment del code {
   text-decoration: inherit;
 }
 
-.post__content pre {
+.post__content pre,
+.comment pre {
   word-wrap: normal;
 }
 
-.post__content pre>code {
+.post__content pre>code,
+.comment pre>code {
   margin: 0;
   border: 0;
   padding: 0;
@@ -440,17 +454,21 @@
   background: transparent;
 }
 
-.post__content .highlight {
+.post__content .highlight,
+.comment .highlight {
   margin-bottom: calc(var(--marginSize) * 0.8);
 }
 
-.post__content .highlight pre {
+.post__content .highlight pre,
+.comment .highlight pre {
   margin-bottom: 0;
   word-break: normal;
 }
 
 .post__content .highlight pre,
-.post__content pre {
+.post__content pre,
+.comment .highlight pre,
+.comment pre {
   overflow: auto;
   border-radius: 3px;
   padding: calc(var(--paddingSize) * 0.8);
@@ -460,7 +478,9 @@
 }
 
 .post__content pre code,
-.post__content pre tt {
+.post__content pre tt,
+.comment pre code,
+.comment pre tt {
   display: inline;
   overflow: visible;
   margin: 0;

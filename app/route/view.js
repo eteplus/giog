@@ -7,9 +7,9 @@ const View = require('../extend/view')
 
 const isProd = process.env.NODE_ENV === 'production'
 
-const { useMicroCache, cacheUrls } = require('../../config/config')
+const config = require('../../config/config')
 
-const isCacheable = ctx => cacheUrls.indexOf(ctx.url) >= 0 && useMicroCache
+// const isCacheable = ctx => config.cacheUrls.indexOf(ctx.url) >= 0 && config.useMicroCache
 
 const microCache = LRU({
   max: 100,
@@ -35,8 +35,8 @@ module.exports = function(app) {
     }
 
     // hit micro cache
-    const cacheable = isCacheable(ctx)
-    if (cacheable) {
+    // const cacheable = isCacheable(ctx)
+    if (config.useMicroCache) {
       const html = microCache.get(ctx.url)
       if (html) {
         ctx.set('X-Cache-Hit', '1')
@@ -64,7 +64,7 @@ module.exports = function(app) {
     }
 
     function handleEnd(content) {
-      if (cacheable) {
+      if (config.useMicroCache) {
         // set micro cache
         microCache.set(ctx.url, content)
       }
@@ -73,7 +73,8 @@ module.exports = function(app) {
 
     try {
       const context = {
-        title: '{ ETE }',
+        siteInfo: config.siteInfo,
+        userInfo: config.userInfo,
         url: ctx.url
       }
       const content = await view.render(context)

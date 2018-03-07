@@ -67,10 +67,27 @@ const fetchArchives = (page, pageSize) => {
   })
 }
 
+const fetchComments = (id, page, pageSize) => {
+  return fetch({
+    url: `/comments?id=${id}&page=${page}&pageSize=${pageSize}`
+  }).then((response) => {
+    const { code, data } = response
+    if (+code >= 0) {
+      return {
+        id,
+        page,
+        data
+      }
+    }
+    throw new Error(response.error)
+  })
+}
+
 export default {
   fetchPosts,
   fetchPostById,
   fetchTags,
   fetchPostsByTag,
-  fetchArchives
+  fetchArchives,
+  fetchComments
 }

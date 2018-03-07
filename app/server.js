@@ -7,7 +7,6 @@ const favicon = require('koa-favicon')
 const compression = require('koa-compress')
 const chalk = require('chalk')
 const logger = require('./middleware/logger')
-const Github = require('./service/github')
 
 global.Promise = bluebird
 
@@ -17,10 +16,6 @@ const isProd = process.env.NODE_ENV === 'production'
 
 // create koa instance
 const app = new Koa()
-
-app.context.service = {
-  github: new Github()
-}
 
 app.keys = ['pixel']
 

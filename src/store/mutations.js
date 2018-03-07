@@ -1,6 +1,6 @@
 const mutations = {
   SET_POSTS(state, { page, data }) {
-    if (page === 1) {
+    if (+page === 1) {
       state.posts.list = []
     }
     if (data.length > 0) {
@@ -23,6 +23,19 @@ const mutations = {
         state.archives[year] = []
       }
       state.archives[year].push(post)
+    }
+  },
+  SET_COMMENTS(state, { id, page, data }) {
+    if (+page === 1 || !state.comments[id]) {
+      state.comments[id] = {
+        list: [],
+        hasNextPage: true
+      }
+    }
+    if (data.length > 0) {
+      state.comments[id].list.push(...data)
+    } else {
+      state.comments[id].hasNextPage = false
     }
   },
   SET_TAGS(state, data) {

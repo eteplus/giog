@@ -26,7 +26,7 @@ export default {
    * set title
    */
   setTitle() {
-    return '归档 · { ETE }'
+    return '归档 · ' + this.siteName
   },
 
   /**
@@ -41,7 +41,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['archives', 'route'])
+    ...mapState(['archives', 'route', 'siteName'])
   },
 
   methods: {

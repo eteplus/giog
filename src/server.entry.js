@@ -4,7 +4,9 @@ import { createApp } from './app'
 export default context => new Promise((resolve, reject) => {
   const { app, router, store } = createApp()
 
-  const { url } = context
+  const { url, siteInfo, userInfo } = context
+  store.state.siteInfo = siteInfo
+  store.state.userInfo = userInfo
   const { fullPath } = router.resolve(url).route
   if (url !== fullPath) {
     reject({ url: fullPath })
