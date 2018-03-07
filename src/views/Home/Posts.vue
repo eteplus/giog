@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       currentPage: 2,
-      pageSize: 2
+      pageSize: 8
     }
   },
 
@@ -68,7 +68,7 @@ export default {
   asyncData({ store, route }) {
     return store.dispatch('getPosts', {
       page: 1,
-      pageSize: 2
+      pageSize: 8
     })
   },
 

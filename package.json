@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "node app/server.js",
     "start": "cross-env NODE_ENV=production nodemon app/server.js",
-    "pull": "node app/pull.js",
+    "sync": "node app/sync.js",
     "db:migrate": "sequelize db:migrate",
     "db:migrate:undo": "sequelize db:migrate:undo",
     "build": "rimraf public/frontend && npm run build:client && npm run build:server",

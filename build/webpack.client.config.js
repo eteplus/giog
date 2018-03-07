@@ -64,7 +64,7 @@ if (isProd) {
     }),
     // auto generate service worker
     new SWPrecachePlugin({
-      cacheId: 'maybeul',
+      cacheId: 'giog',
       filename: 'service-worker.js',
       minify: true,
       dontCacheBustUrlsMatching: /./,
@@ -75,7 +75,7 @@ if (isProd) {
           handler: 'networkFirst'
         },
         {
-          urlPattern: /\/(tags|about|archives)/,
+          urlPattern: /\/(tags|archives)/,
           handler: 'networkFirst'
         },
         {
