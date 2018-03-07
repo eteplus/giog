@@ -1,7 +1,10 @@
 const mutations = {
   SET_POSTS(state, { page, data }) {
+    if (page === 1) {
+      state.posts.list = []
+    }
     if (data.length > 0) {
-      state.posts.page[page] = data
+      state.posts.list.push(...data)
     } else {
       state.posts.hasNextPage = false
     }
@@ -39,9 +42,6 @@ const mutations = {
         state.tag.posts[tag].hasNextPage = false
       }
     }
-  },
-  SET_MENU_ITEMS(state, items) {
-    state.menuItems = items
   }
 }
 

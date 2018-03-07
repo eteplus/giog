@@ -14,7 +14,7 @@ export function createRouter() {
         component: Home,
         children: [
           {
-            name: 'posts',
+            name: 'home',
             path: '/',
             component: () => import('@/views/Home/Posts')
           },
@@ -39,9 +39,11 @@ export function createRouter() {
             component: () => import('@/views/Home/Tag')
           },
           {
-            name: 'about',
-            path: '/about',
-            component: () => import('@/views/home/About')
+            name: 'github',
+            path: '/github',
+            redirect: to => {
+              window.location.href = 'https://github.com/eteplus'
+            }
           }
         ]
       },

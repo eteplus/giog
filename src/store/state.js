@@ -1,6 +1,6 @@
 const state = {
   posts: {
-    page: {},
+    list: [],
     hasNextPage: true
   },
   post: {},

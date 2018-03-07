@@ -1,6 +1,6 @@
 <template>
   <div class="view__wrapper">
-    <div class="post" v-for="(post, index) in pagination()" :key="index">
+    <div class="post" v-for="(post, index) in posts.list" :key="index">
       <router-link class="post__title"
         :to="{ name: 'post', params: { id: post.id }}"
         :aria-label="post.title">{{post.title}}
@@ -11,14 +11,12 @@
         </div>
         <span class="post__dot"></span>
         <div class="post__tags">
-          <!-- <a class="post__tag">#javascript</a> -->
           <template v-for="(tag, idx) in post.tags">
             <router-link class="post__tag"
               :to="{ name: 'tag', params: { tag: tag.name } }">
               #{{tag.name}}
             </router-link>
             <span class="post__dot" v-if="idx !== post.tags.length - 1"></span>
-            <!-- <el-button plain round type="info" size="mini">#{{tag.name}}</el-button> -->
           </template>
         </div>
       </div>
@@ -34,6 +32,11 @@
         )">阅读全文 »</el-button>
       </div>
     </div>
+    <div class="load-more" :style="{
+      opacity: posts.hasNextPage ? 1 : 0
+    }">
+      <el-button plain round type="info" size="mini" @click="loadMore">加载更多</el-button>
+    </div>
   </div>
 </template>
 
@@ -46,7 +49,8 @@ export default {
 
   data() {
     return {
-      currentPage: 1
+      currentPage: 2,
+      pageSize: 2
     }
   },
 
@@ -63,8 +67,8 @@ export default {
    */
   asyncData({ store, route }) {
     return store.dispatch('getPosts', {
-      page: route.query.page || 1,
-      pageSize: route.query.pageSize || 8
+      page: 1,
+      pageSize: 2
     })
   },
 
@@ -73,9 +77,19 @@ export default {
   },
 
   methods: {
-    pagination() {
-      const currentPage = this.route.query.page || this.currentPage
-      return this.posts.page[currentPage]
+    async loadMore() {
+      this.$bar.start()
+      try {
+        await this.$store.dispatch('getPosts', {
+          page: this.currentPage,
+          pageSize: this.pageSize
+        })
+        this.$bar.finish()
+        this.currentPage += 1
+      } catch (error) {
+        this.$bar.finish()
+        console.error(error)
+      }
     },
     dateFormat(time) {
       return dateFormat(time)
@@ -168,10 +182,25 @@ export default {
   &.is-plain:focus,
   &.is-plain:hover {
     font-weight: bold;
-    text-decoration: underline;
     color: color(var(--textColor) alpha(80%));
     border-color: var(--bgColor-active);
     background-color: var(--bgColor-active);
   }
+
+  &.is-plain:hover {
+    text-decoration: underline;
+  }
+}
+
+.load-more {
+  transition: all .3s;
+  opacity: 0;
+  text-align: center;
+  margin-top: -20px;
+  z-index: 1;
+}
+
+.load-more.active {
+  opacity: 1;
 }
 </style>

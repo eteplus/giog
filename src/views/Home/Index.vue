@@ -2,28 +2,29 @@
   <el-container class="home">
     <el-header class="hidden-sm-and-up">
       <el-menu
+        :router="true"
         menu-trigger="click"
         mode="horizontal"
         text-color="#909399"
         active-text-color="#555555">
-        <el-submenu index="2">
+        <el-submenu index="menu">
           <template slot="title">
             <i class="el-icon-fa-menu"></i>
           </template>
-          <el-menu-item index="0">
+          <el-menu-item index="/">
             <span slot="title">Home</span>
           </el-menu-item>
-          <el-menu-item index="1">
+          <el-menu-item index="/tags">
             <span slot="title">Tags</span>
           </el-menu-item>
-          <el-menu-item index="2">
+          <el-menu-item index="/archives">
             <span slot="title">Archives</span>
           </el-menu-item>
         </el-submenu>
-        <el-menu-item index="3">
-          <i class="el-icon-fa-github"></i>
+        <el-menu-item index="github">
+          <a href="https://github.com/eteplus"><i class="el-icon-fa-github"></i></a>
         </el-menu-item>
-        <el-menu-item class="avatar-wrapper" index="4">
+        <el-menu-item class="avatar-wrapper" index="/">
           <div slot="title">
             <span class="avatar avatar--mini" :style="{
             backgroundImage: 'url(' + userInfo.avatar +')'
@@ -35,9 +36,9 @@
     <el-container>
       <el-aside width="250px" class="hidden-xs-only">
         <div class="profile">
-          <a class="avatar" :style="{
+          <router-link class="avatar" :style="{
             backgroundImage: 'url(' + userInfo.avatar +')'
-          }"></a>
+          }" :to="{ name: 'home' }"></router-link>
           <h4 class="username">ETEPLUS</h4>
           <p class="bio">
             Designer and Coder. ^_^
@@ -57,22 +58,23 @@
             <i class="el-icon-fa-archive"></i>
             <span slot="title">归档</span>
           </el-menu-item>
-          <el-menu-item index="3">
+          <!-- <el-menu-item index="3">
             <i class="el-icon-fa-help-circled"></i>
             <span slot="title">关于</span>
-          </el-menu-item>
-          <el-menu-item index="4">
+          </el-menu-item> -->
+          <el-menu-item index="github">
             <i class="el-icon-fa-github"></i>
-            <span slot="title">Github</span>
+            <a slot="title" href="https://github.com/eteplus">Github</a>
           </el-menu-item>
-          <el-menu-item index="5">
+          <!-- <el-menu-item index="5">
             <i class="el-icon-fa-rss"></i>
             <span slot="title">RSS</span>
-          </el-menu-item>
+          </el-menu-item> -->
         </el-menu>
       </el-aside>
-      <el-main>
+      <el-main ref="view">
         <router-view />
+        <back-to-top :target="$refs.view.$el" v-if="showBackToTop"/>
       </el-main>
     </el-container>
   </el-container>
@@ -89,15 +91,22 @@ import {
   Submenu
 } from 'element-ui'
 
+import BackToTop from '@/components/BackToTop'
+
 export default {
   name: 'Home',
 
   data() {
     return {
+      showBackToTop: false,
       userInfo: {
-        avatar: 'http://127.0.0.1:3030/static/img/dog.jpg'
+        avatar: 'static/img/avatar.jpeg'
       }
     }
+  },
+
+  mounted() {
+    this.showBackToTop = true
   },
 
   components: {
@@ -107,7 +116,8 @@ export default {
     ElAside: Aside,
     ElMenu: Menu,
     ElSubmenu: Submenu,
-    ElMenuItem: MenuItem
+    ElMenuItem: MenuItem,
+    BackToTop
   }
 }
 </script>
@@ -120,6 +130,11 @@ export default {
   height: 100%;
   max-width: 960px;
   margin: 0 auto;
+
+  & a {
+    text-decoration: none;
+    color: #555;
+  }
 
   & .el-header {
     z-index: 1;

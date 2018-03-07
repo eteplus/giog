@@ -1,6 +1,6 @@
 <template>
   <div id="giog" role="main">
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
@@ -8,11 +8,7 @@
 import 'element-ui/lib/theme-chalk/display.css'
 
 export default {
-  name: 'Giog',
-
-  components: {
-    BackToTop: () => import('@/components/BackToTop'),
-  }
+  name: 'Giog'
 }
 </script>
 
@@ -37,6 +33,7 @@ body {
 }
 
 #giog {
+  position: relative;
   height: 100%;
 }
 

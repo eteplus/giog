@@ -1,6 +1,6 @@
 <template>
   <a class="back-to-top" :class="{ 'is-showed': showBtn }" @click.prevent="backToTop">
-    <i class="iconfont icon-backtotop"></i>
+    <i class="el-icon el-icon-caret-top"></i>
   </a>
 </template>
 
@@ -8,13 +8,15 @@
 import throttle from '@/utils/throttle'
 
 export default {
-  name: 'back-to-top',
+  name: 'BackToTop',
+
   props: {
+    target: null,
     // 距离顶部高度
     height: {
       type: Number,
       default() {
-        return 200
+        return 300
       }
     },
     // 滚动时长
@@ -33,17 +35,26 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener('scroll', throttle(this.toggleBtn, 300))
+    if (!this.$isServer) {
+      const el = this.target || window
+      el.addEventListener('scroll', throttle(this.toggleBtn, 300))
+    }
   },
   methods: {
     backToTop() {
       if (!this.showBtn || this.isScrolling || this.scrollTop === 0) return
       this.isScrolling = true
-      this.handleScroll(window, this.scrollTop, 0, this.duration)
+      this.handleScroll(this.target || window, this.scrollTop, 0, this.duration)
     },
     toggleBtn() {
-      const scrollTop = window.pageYOffset ||
-        (document.body.scrollTop + document.documentElement.scrollTop)
+      let scrollTop
+      const el = this.target
+      if (el === window) {
+        scrollTop = window.pageYOffset ||
+          (document.body.scrollTop + document.documentElement.scrollTop)
+      } else {
+        scrollTop = el.scrollTop
+      }
       this.scrollTop = scrollTop
       this.showBtn = scrollTop >= this.height
     },
@@ -95,7 +106,7 @@ export default {
   height: 3rem;
   z-index: 10;
   position: fixed;
-  right: 2rem;
+  right: 4rem;
   bottom: 2rem;
   cursor: pointer;
   text-align: center;
@@ -108,10 +119,9 @@ export default {
     opacity: 1;
   }
 
-  & .icon-backtotop {
-    color: #5d4a4a;
-    font-size: 1.6rem;
-    margin-top: .7rem;
+  & .el-icon {
+    color: #555;
+    font-size: 1.5rem;
     display: inline-block;
     font-style: normal;
     vertical-align: baseline;
@@ -120,6 +130,7 @@ export default {
     line-height: 1;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+    transform: translateY(50%);
   }
 }
 </style>

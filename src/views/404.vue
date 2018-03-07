@@ -1,9 +1,9 @@
 <template>
-  <div class="container-404">
+  <div class="container">
     <div class="content">
       <div class="text-404">404</div>
       <p class="">This is not the web page you are looking for.</p>
-      <router-link class="button is-outlined is-info" :to="{ path: '/' }" replace>Back Home</router-link>
+      <el-button plain round icon="el-icon-arrow-left" @click="$router.replace('/')">Back Home</el-button>
     </div>
   </div>
 </template>
@@ -18,8 +18,10 @@ export default {
 }
 </script>
 
-<style lang="postcss">
-.container-404 {
+<style lang="postcss" scoped>
+@import "../assets/css/variables.postcss";
+
+.container {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -31,7 +33,8 @@ export default {
     top: 50%;
     text-align: center;
     width: 100%;
-    margin-top: -160px;
+    padding: 0 1rem;
+    transform: translateY(-50%);
   }
 
   & .text-404 {
@@ -41,25 +44,31 @@ export default {
     font-size: 10rem;
     line-height: 1;
     font-weight: 100;
-    color: #3273dc;
-    /* background-image: -webkit-linear-gradient(92deg,#f35626,#feab3a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -webkit-animation: hue 60s infinite linear; */
+    color: #555;
   }
 
   & p {
+    margin-top: 1rem;
     font-size: 1.2rem;
     line-height: 1.5;
     margin: 0;
-    color: #7b8993;
+    color: rgba(85, 85, 85, 0.8);
   }
 
-  & .button {
-    border-width: 2px;
-    border-radius: 2.25rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+  & .el-button {
+    margin-top: 1rem;
+    font-size: var(--fontSize);
+    color: color(var(--textColor) alpha(80%));
+    border-color: var(--bgColor);
+    background-color: var(--bgColor);
+
+    &.is-plain:focus,
+    &.is-plain:hover {
+      text-decoration: underline;
+      color: color(var(--textColor) alpha(80%));
+      border-color: var(--bgColor-active);
+      background-color: var(--bgColor-active);
+    }
   }
 }
 

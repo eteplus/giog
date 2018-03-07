@@ -2,8 +2,12 @@
 import 'es6-promise/auto'
 import Vue from 'vue'
 import { createApp } from './app'
+import ProgressBar from './components/ProgressBar'
 
 Vue.config.performance = process.env.NODE_ENV === 'development'
+
+const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
+document.body.appendChild(bar.$el)
 
 Vue.mixin({
   beforeRouteUpdate(to, from, next) {
@@ -42,13 +46,16 @@ router.onReady(() => {
       diffed = prevMatched[i] !== component
       return diffed
     })
-
     const asyncDataHooks = activated.map(component => component.asyncData).filter(_ => _)
     if (!asyncDataHooks.length) {
       return next()
     }
+    bar.start()
     Promise.all(asyncDataHooks.map(hook => hook({ store, route: to })))
-      .then(() => next())
+      .then(() => {
+        bar.finish()
+        next()
+      })
       .catch(next)
   })
 

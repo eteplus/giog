@@ -5,6 +5,16 @@
       <div class="post__meta">
         <div class="post__date"><i class="el-icon-date"></i> {{dateFormat(post.createdAt)}}</div>
         <!-- <a class="tag is-light" :href="post.url">{{post.comments.totalCount > 0 ? post.comments.totalCount : ''}} comments</a> -->
+        <span class="post__dot"></span>
+        <div class="post__tags">
+          <template v-for="(tag, idx) in post.tags">
+            <router-link class="post__tag"
+              :to="{ name: 'tag', params: { tag: tag.name } }">
+              #{{tag.name}}
+            </router-link>
+            <span class="post__dot" v-if="idx !== post.tags.length - 1"></span>
+          </template>
+        </div>
       </div>
       <div class="post__content" v-html="post.content">
       </div>
@@ -23,15 +33,6 @@
             Attribution 4.0 International (CC BY 4.0)
           </a>
         </div>
-      </div>
-      <div class="post__tags">
-        <template v-for="(tag, idx) in post.tags">
-          <router-link class="post__tag"
-            :to="{ name: 'tag', params: { tag: tag.name } }">
-            #{{tag.name}}
-          </router-link>
-          <span class="post__dot" v-if="idx !== post.tags.length - 1"></span>
-        </template>
       </div>
     </div>
   </div>
@@ -134,7 +135,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  /* margin-top: 10px; */
 }
 
 .post__tag {
