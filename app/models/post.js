@@ -27,15 +27,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     createdAt: {
       field: 'created_at',
-      type: DataTypes.DATE
+      type: DataTypes.STRING
     },
     publishedAt: {
       field: 'published_at',
-      type: DataTypes.DATE
+      type: DataTypes.STRING
     },
     updatedAt: {
       field: 'updated_at',
-      type: DataTypes.DATE
+      type: DataTypes.STRING
     },
     commentCount: {
       field: 'comment_count',

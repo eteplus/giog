@@ -31,11 +31,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     createdAt: {
       field: 'created_at',
-      type: DataTypes.DATE
+      type: DataTypes.STRING
     },
     updatedAt: {
       field: 'updated_at',
-      type: DataTypes.DATE
+      type: DataTypes.STRING
     },
     cursor: {
       type: DataTypes.STRING

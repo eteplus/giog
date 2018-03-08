@@ -28,15 +28,15 @@ module.exports = {
       },
       createdAt: {
         field: 'created_at',
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       publishedAt: {
         field: 'published_at',
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       updatedAt: {
         field: 'updated_at',
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       commentCount: {
         field: 'comment_count',
@@ -120,11 +120,11 @@ module.exports = {
         },
         createdAt: {
           field: 'created_at',
-          type: Sequelize.DATE
+          type: Sequelize.STRING
         },
         updatedAt: {
           field: 'updated_at',
-          type: Sequelize.DATE
+          type: Sequelize.STRING
         },
         cursor: {
           type: Sequelize.STRING

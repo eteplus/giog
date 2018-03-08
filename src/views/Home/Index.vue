@@ -63,7 +63,7 @@
           </el-menu-item>
         </el-menu>
       </el-aside>
-      <el-main ref="view">
+      <el-main class="view-container" ref="view">
         <router-view />
         <back-to-top :target="$refs.view.$el" v-if="showBackToTop"/>
         <div class="footer">
@@ -138,6 +138,7 @@ export default {
   height: 100%;
   max-width: 960px;
   margin: 0 auto;
+  -webkit-overflow-scrolling:touch;
 
   & a {
     text-decoration: none;
@@ -233,6 +234,7 @@ export default {
 
   & .el-main {
     padding: 0 20px;
+    -webkit-overflow-scrolling:touch;
   }
 
   & .avatar-wrapper {
