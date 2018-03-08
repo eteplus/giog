@@ -27,6 +27,10 @@ html, body {
   font-family: "Roboto Slab", "PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Microsoft YaHei";
 }
 
+* {
+  -webkit-overflow-scrolling:touch;
+}
+
 body {
   position: relative;
   height: 100vh;

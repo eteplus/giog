@@ -48,7 +48,7 @@ app.use(view.routes()).use(view.allowedMethods({
 }))
 
 const port = process.env.PORT || 3030
-const host = !isProd ? '127.0.0.1' : '0.0.0.0'
+const host = isProd ? '127.0.0.1' : '0.0.0.0'
 
 app.listen(port, host, () => {
   console.log('\n--------- Started ---------')

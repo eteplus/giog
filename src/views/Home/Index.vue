@@ -2,6 +2,7 @@
   <el-container class="home">
     <el-header class="hidden-sm-and-up">
       <el-menu
+        :default-active="$route.name"
         menu-trigger="click"
         mode="horizontal"
         text-color="#909399"
@@ -11,14 +12,11 @@
           <template slot="title">
             <i class="el-icon-fa-menu"></i>
           </template>
-          <el-menu-item index="home">
-            <span slot="title">首页</span>
-          </el-menu-item>
           <el-menu-item index="tags">
-            <span slot="title">标签</span>
+            <span slot="title"><span class="dot"></span>标签</span>
           </el-menu-item>
           <el-menu-item index="archives">
-            <span slot="title">归档</span>
+            <span slot="title"><span class="dot"></span>归档</span>
           </el-menu-item>
         </el-submenu>
         <el-menu-item index="github">
@@ -68,7 +66,7 @@
         <back-to-top :target="$refs.view.$el" v-if="showBackToTop"/>
         <div class="footer">
           <div class="footer__content">
-           © 2018&nbsp;-&nbsp; {{siteInfo.name}}  &nbsp;-&nbsp;<a target="_blank" rel="nofollow" class="external beian" href="http://www.miitbeian.gov.cn/">{{siteInfo.recordText}}</a>  <br> Powered by&nbsp;<a target="_blank" href="https://github.com/eteplus/giog">Giog</a>
+           © 2018&nbsp;-&nbsp; {{siteInfo.name}}  &nbsp;-&nbsp;<a target="_blank" rel="noopener" href="http://www.miitbeian.gov.cn/">{{siteInfo.recordText}}</a>  <br> Powered by&nbsp;<a target="_blank"  rel="noopener" href="https://github.com/eteplus/giog">Giog</a>
           </div>
         </div>
       </el-main>
@@ -138,7 +136,6 @@ export default {
   height: 100%;
   max-width: 960px;
   margin: 0 auto;
-  -webkit-overflow-scrolling:touch;
 
   & a {
     text-decoration: none;
@@ -234,7 +231,6 @@ export default {
 
   & .el-main {
     padding: 0 20px;
-    -webkit-overflow-scrolling:touch;
   }
 
   & .avatar-wrapper {
@@ -298,6 +294,10 @@ export default {
   }
 }
 
+.el-menu-item.is-active .dot{
+  opacity: 1;
+}
+
 .profile {
   display: flex;
   align-items: center;
@@ -305,6 +305,16 @@ export default {
   text-align: center;
   flex-direction: column;
   padding: 20px;
+}
+
+.dot {
+  opacity: 0;
+  display: inline-block;
+  margin: 0 6px 0 2px;
+  border-radius: 100%;
+  width: 4px;
+  height: 4px;
+  background-color: color(var(--textColor) alpha(60%));
 }
 
 .view__wrapper {
